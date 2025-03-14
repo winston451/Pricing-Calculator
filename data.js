@@ -1,5 +1,17 @@
 // Pricing data extracted from the CSV/TSV files
 const pricingData = {
+    "standard-flyers": {
+        name: "Standard 1-Sided Flyers",
+        stock: "100lb Cover",
+        quantities: [25, 50, 100, 250, 500, 1000, 2500, 5000],
+        prices: {
+            "1sided": [45.00, 65.00, 85.00, 125.00, 175.00, 275.00, 425.00, 540.00]
+        },
+        services: {
+            "design": 49.00,
+            "note": "Design service fee includes professional layout and up to 2 revisions."
+        }
+    },
     "business-cards": {
         name: "Business Cards (2x3.5)",
         stock: "14PT",

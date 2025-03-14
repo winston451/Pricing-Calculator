@@ -46,6 +46,9 @@ function generateProductOptions(productType) {
         case 'business-cards':
             generateBusinessCardOptions();
             break;
+        case 'standard-flyers':
+            generateStandardFlyersOptions();
+            break;
         case 'flyers-invitations-small':
         case 'flyers-invitations-medium':
         case 'flyers-invitations-large':
@@ -193,6 +196,60 @@ function generateBusinessCardOptions() {
     currentOptions.quantity = parseInt(quantitySelect.value);
     currentOptions.sides = '1sided';
     currentOptions.reorder = false;
+}
+
+// Generate options for standard flyers
+function generateStandardFlyersOptions() {
+    // Quantity selection
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantitySelect = document.createElement('select');
+    quantitySelect.id = 'quantity';
+
+    currentProduct.quantities.forEach(qty => {
+        const option = document.createElement('option');
+        option.value = qty;
+        option.textContent = qty;
+        quantitySelect.appendChild(option);
+    });
+
+    quantitySelect.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantitySelect.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantitySelect);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Design service checkbox
+    const designGroup = document.createElement('div');
+    designGroup.className = 'option-group';
+
+    const designCheckbox = document.createElement('input');
+    designCheckbox.type = 'checkbox';
+    designCheckbox.id = 'design-service';
+
+    const designLabel = document.createElement('label');
+    designLabel.htmlFor = 'design-service';
+    designLabel.textContent = `Design Service ($${currentProduct.services.design.toFixed(2)})`;
+
+    designCheckbox.addEventListener('change', () => {
+        currentOptions.designService = designCheckbox.checked;
+        updatePriceDisplay();
+    });
+
+    designGroup.appendChild(designCheckbox);
+    designGroup.appendChild(designLabel);
+    optionsContainer.appendChild(designGroup);
+
+    // Set initial values
+    currentOptions.quantity = parseInt(quantitySelect.value);
+    currentOptions.designService = false;
 }
 
 // Generate options for flyers/invitations
