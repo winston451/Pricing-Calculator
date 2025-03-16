@@ -72,6 +72,9 @@ function generateProductOptions(productType) {
         case 'tickets':
             generateTicketOptions();
             break;
+        case 'obituaries':
+            generateObituaryOptions();
+            break;
         default:
             optionsContainer.innerHTML = '<p>Please select a product category</p>';
     }
@@ -1215,6 +1218,9 @@ function updatePriceDisplay() {
         case 'tickets':
             calculateTicketPrice(priceItems);
             break;
+        case 'obituaries':
+            calculateObituaryPrice(priceItems);
+            break;
     }
 
     // Calculate total price from price items
@@ -1426,6 +1432,215 @@ function calculateBannerPrice(priceItems) {
     });
 }
 
+// Generate options for obituaries
+function generateObituaryOptions() {
+    // Obituary type selection
+    const typeGroup = document.createElement('div');
+    typeGroup.className = 'option-group';
+
+    const typeLabel = document.createElement('label');
+    typeLabel.textContent = 'Obituary Type:';
+    typeGroup.appendChild(typeLabel);
+
+    const typeSelect = document.createElement('select');
+    typeSelect.id = 'obituary-type';
+
+    const types = [
+        { value: '4pages-8.5x11', label: '4 pages (8.5x11 folds to 5.5x8.5)' },
+        { value: '4pages-8.5x14', label: '4 pages (8.5x14 folds to 8.5x8.7)' },
+        { value: '4pages-11x17', label: '4 pages (11x17 folds to 8.5x11)' },
+        { value: '8pages-8.5x11', label: '8 pages (8.5x11 folds to 5.5x8.5)' },
+        { value: '8pages-8.5x14', label: '8 pages (8.5x14 folds to 8.5x7)' },
+        { value: '8pages-11x17', label: '8 pages (11x17 folds to 8.5x11)' },
+        { value: '6page-trifold-8.5x14', label: '6 page Tri-Fold (8.5x14)' },
+        { value: '6page-trifold-11x17', label: '6 page Tri-Fold (11x17)' }
+    ];
+
+    types.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type.value;
+        option.textContent = type.label;
+        typeSelect.appendChild(option);
+    });
+
+    typeSelect.addEventListener('change', () => {
+        currentOptions.obituaryType = typeSelect.value;
+
+        // Update description
+        const descriptionElement = document.getElementById('obituary-description');
+        if (descriptionElement) {
+            descriptionElement.textContent = currentProduct.types[currentOptions.obituaryType].description;
+        }
+
+        // Update stock
+        const stockElement = document.getElementById('obituary-stock');
+        if (stockElement) {
+            stockElement.textContent = currentProduct.types[currentOptions.obituaryType].stock;
+        }
+
+        updatePriceDisplay();
+    });
+
+    typeGroup.appendChild(typeSelect);
+    optionsContainer.appendChild(typeGroup);
+
+    // Quantity selection
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantitySelect = document.createElement('select');
+    quantitySelect.id = 'quantity';
+
+    const obituaryType = types[0].value;
+    currentProduct.types[obituaryType].quantities.forEach(qty => {
+        const option = document.createElement('option');
+        option.value = qty;
+        option.textContent = qty;
+        quantitySelect.appendChild(option);
+    });
+
+    quantitySelect.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantitySelect.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantitySelect);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Design options
+    const designGroup = document.createElement('div');
+    designGroup.className = 'option-group';
+
+    const designLabel = document.createElement('label');
+    designLabel.textContent = 'Design Option:';
+    designGroup.appendChild(designLabel);
+
+    const designRadioGroup = document.createElement('div');
+    designRadioGroup.className = 'radio-group';
+
+    // Print ready option
+    const printReadyOption = document.createElement('div');
+    printReadyOption.className = 'radio-option';
+
+    const printReadyInput = document.createElement('input');
+    printReadyInput.type = 'radio';
+    printReadyInput.name = 'design-option';
+    printReadyInput.id = 'print-ready';
+    printReadyInput.value = 'print-ready';
+    printReadyInput.checked = true;
+
+    const printReadyLabel = document.createElement('label');
+    printReadyLabel.htmlFor = 'print-ready';
+    printReadyLabel.textContent = 'Print Ready';
+
+    printReadyOption.appendChild(printReadyInput);
+    printReadyOption.appendChild(printReadyLabel);
+    designRadioGroup.appendChild(printReadyOption);
+
+    // Design + setup option
+    const designSetupOption = document.createElement('div');
+    designSetupOption.className = 'radio-option';
+
+    const designSetupInput = document.createElement('input');
+    designSetupInput.type = 'radio';
+    designSetupInput.name = 'design-option';
+    designSetupInput.id = 'design-setup';
+    designSetupInput.value = 'design-setup';
+
+    const designSetupLabel = document.createElement('label');
+    designSetupLabel.htmlFor = 'design-setup';
+    designSetupLabel.textContent = 'Design + Setup Included';
+
+    designSetupOption.appendChild(designSetupInput);
+    designSetupOption.appendChild(designSetupLabel);
+    designRadioGroup.appendChild(designSetupOption);
+
+    // Add event listeners for design option selection
+    printReadyInput.addEventListener('change', () => {
+        if (printReadyInput.checked) {
+            currentOptions.designOption = 'print-ready';
+            updatePriceDisplay();
+        }
+    });
+
+    designSetupInput.addEventListener('change', () => {
+        if (designSetupInput.checked) {
+            currentOptions.designOption = 'design-setup';
+            updatePriceDisplay();
+        }
+    });
+
+    designGroup.appendChild(designRadioGroup);
+    optionsContainer.appendChild(designGroup);
+
+    // Full bleed option
+    const fullBleedGroup = document.createElement('div');
+    fullBleedGroup.className = 'option-group';
+
+    const fullBleedCheckbox = document.createElement('input');
+    fullBleedCheckbox.type = 'checkbox';
+    fullBleedCheckbox.id = 'full-bleed';
+
+    const fullBleedLabel = document.createElement('label');
+    fullBleedLabel.htmlFor = 'full-bleed';
+    fullBleedLabel.textContent = 'Full Bleed Option';
+
+    fullBleedCheckbox.addEventListener('change', () => {
+        currentOptions.fullBleed = fullBleedCheckbox.checked;
+        updatePriceDisplay();
+    });
+
+    fullBleedGroup.appendChild(fullBleedCheckbox);
+    fullBleedGroup.appendChild(fullBleedLabel);
+    optionsContainer.appendChild(fullBleedGroup);
+
+    // Paginate fee option (only for print ready)
+    const paginateGroup = document.createElement('div');
+    paginateGroup.className = 'option-group';
+
+    const paginateCheckbox = document.createElement('input');
+    paginateCheckbox.type = 'checkbox';
+    paginateCheckbox.id = 'paginate-fee';
+
+    const paginateLabel = document.createElement('label');
+    paginateLabel.htmlFor = 'paginate-fee';
+    paginateLabel.textContent = 'Paginate Fee';
+
+    paginateCheckbox.addEventListener('change', () => {
+        currentOptions.paginateFee = paginateCheckbox.checked;
+        updatePriceDisplay();
+    });
+
+    paginateGroup.appendChild(paginateCheckbox);
+    paginateGroup.appendChild(paginateLabel);
+    optionsContainer.appendChild(paginateGroup);
+
+    // Product information
+    const infoGroup = document.createElement('div');
+    infoGroup.className = 'option-group';
+
+    const stockInfo = document.createElement('div');
+    stockInfo.innerHTML = '<strong>Stock:</strong> <span id="obituary-stock">' + currentProduct.types[types[0].value].stock + '</span>';
+    infoGroup.appendChild(stockInfo);
+
+    const descriptionInfo = document.createElement('div');
+    descriptionInfo.innerHTML = '<strong>Description:</strong> <span id="obituary-description">' + currentProduct.types[types[0].value].description + '</span>';
+    infoGroup.appendChild(descriptionInfo);
+
+    optionsContainer.appendChild(infoGroup);
+
+    // Set initial values
+    currentOptions.obituaryType = types[0].value;
+    currentOptions.quantity = currentProduct.types[types[0].value].quantities[0];
+    currentOptions.designOption = 'print-ready';
+    currentOptions.fullBleed = false;
+    currentOptions.paginateFee = false;
+}
+
 // Calculate price for tickets
 function calculateTicketPrice(priceItems) {
     const ticketData = currentProduct.types[currentOptions.ticketType];
@@ -1453,6 +1668,41 @@ function calculateTicketPrice(priceItems) {
         priceItems.push({
             name: `Raffle Tickets (${currentOptions.quantity} qty, ${colorOption})`,
             price: basePrice
+        });
+    }
+}
+
+// Calculate price for obituaries
+function calculateObituaryPrice(priceItems) {
+    const obituaryData = currentProduct.types[currentOptions.obituaryType];
+    const quantityIndex = obituaryData.quantities.indexOf(currentOptions.quantity);
+
+    // Base price depends on design option
+    const basePrice = obituaryData.prices[currentOptions.designOption][quantityIndex];
+
+    // Format the name for display
+    const designOption = currentOptions.designOption === 'print-ready'
+        ? 'Print Ready'
+        : 'Design + Setup Included';
+
+    priceItems.push({
+        name: `${obituaryData.name} (${currentOptions.quantity} qty, ${designOption})`,
+        price: basePrice
+    });
+
+    // Add full bleed option if selected
+    if (currentOptions.fullBleed) {
+        priceItems.push({
+            name: 'Full Bleed Option',
+            price: obituaryData.options['full-bleed'][quantityIndex]
+        });
+    }
+
+    // Add paginate fee if selected (only for print ready)
+    if (currentOptions.paginateFee && currentOptions.designOption === 'print-ready') {
+        priceItems.push({
+            name: 'Paginate Fee',
+            price: obituaryData.options['paginate-fee']
         });
     }
 }

@@ -225,5 +225,130 @@ const pricingData = {
                 }
             }
         }
+    },
+    "obituaries": {
+        name: "Obituaries",
+        types: {
+            "4pages-8.5x11": {
+                name: "4 pages (8.5x11 folds to 5.5x8.5)",
+                stock: "100lb Gloss Text",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 6 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [130.00, 189.00, 255.49, 315.50, 367.50, 445.00, 515.00],
+                    "design-setup": [199.00, 260.00, 324.00, 384.50, 436.50, 514.00, 584.00]
+                },
+                options: {
+                    "full-bleed": [30.00, 50.00, 50.00, 65.00, 65.00, 70.00, 70.00],
+                    "paginate-fee": 25.00,
+                    "type-set-fee": 45.00
+                }
+            },
+            "4pages-8.5x14": {
+                name: "4 pages (8.5x14 folds to 8.5x8.7)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 10 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [168.00, 229.00, 299.00, 342.50, 387.50, 432.50, 477.50],
+                    "design-setup": [237.00, 298.00, 368.00, 411.50, 456.50, 501.50, 546.50]
+                },
+                options: {
+                    "full-bleed": [30.00, 50.00, 50.00, 65.00, 65.00, 70.00, 70.00],
+                    "paginate-fee": 20.00,
+                    "type-set-fee": 45.00
+                }
+            },
+            "4pages-11x17": {
+                name: "4 pages (11x17 folds to 8.5x11)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 20 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [227.00, 335.00, 440.00, 562.00, 695.00, 749.00, 902.00],
+                    "design-setup": [307.00, 415.00, 520.00, 642.00, 775.00, 829.00, 992.00]
+                },
+                options: {
+                    "full-bleed": [60.00, 70.00, 70.00, 80.00, 80.00, 90.00, 90.00],
+                    "paginate-fee": 20.00,
+                    "type-set-fee": 45.00
+                }
+            },
+            "8pages-8.5x11": {
+                name: "8 pages (8.5x11 folds to 5.5x8.5)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 12 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [298.00, 358.00, 425.00, 565.00, 677.00, 769.00, 865.00],
+                    "design-setup": [432.00, 490.00, 557.00, 697.00, 809.00, 901.00, 997.00]
+                },
+                options: {
+                    "full-bleed": [40.00, 60.00, 60.00, 70.00, 75.00, 80.00, 80.00],
+                    "paginate-fee": 35.00,
+                    "type-set-fee": 90.00
+                }
+            },
+            "8pages-8.5x14": {
+                name: "8 pages (8.5x14 folds to 8.5x7)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 20 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [337.00, 460.00, 541.00, 635.00, 725.00, 805.00, 880.00],
+                    "design-setup": [469.00, 592.00, 673.00, 767.00, 857.00, 937.00, 1012.00]
+                },
+                options: {
+                    "full-bleed": [40.00, 60.00, 60.00, 70.00, 75.00, 80.00, 80.00],
+                    "paginate-fee": 35.00,
+                    "type-set-fee": 90.00
+                }
+            },
+            "8pages-11x17": {
+                name: "8 pages (11x17 folds to 8.5x11)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Bi-Fold, Full Color, Folded, Stapled, Includes up to 40 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [487.00, 567.00, 646.00, 749.00, 838.00, 995.00, 1112.00],
+                    "design-setup": [629.00, 709.00, 788.00, 891.00, 980.00, 1137.00, 1254.00]
+                },
+                options: {
+                    "full-bleed": [80.00, 100.00, 100.00, 110.00, 110.00, 125.00, 125.00],
+                    "paginate-fee": 35.00,
+                    "type-set-fee": 90.00
+                }
+            },
+            "6page-trifold-8.5x14": {
+                name: "6 page Tri-Fold (8.5x14)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Tri-Fold, Full Color, Folded, Stapled, Includes up to 25 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [179.00, 377.00, 475.00, 525.00, 669.00, 785.00, 819.00],
+                    "design-setup": [289.00, 488.00, 585.00, 635.00, 779.00, 895.00, 929.00]
+                },
+                options: {
+                    "full-bleed": [30.00, 30.00, 35.00, 35.00, 40.00, 50.00, 55.00],
+                    "paginate-fee": 25.00,
+                    "type-set-fee": 55.00
+                }
+            },
+            "6page-trifold-11x17": {
+                name: "6 page Tri-Fold (11x17)",
+                stock: "100lb Gloss Text or Matte Finish",
+                description: "Tri-Fold, Full Color, Folded, Stapled, Includes up to 30 Photos",
+                quantities: [50, 100, 150, 200, 250, 300, 350],
+                prices: {
+                    "print-ready": [250.00, 417.00, 535.00, 655.00, 732.00, 815.00, 999.00],
+                    "design-setup": [360.00, 527.00, 645.00, 765.00, 842.00, 925.00, 1109.00]
+                },
+                options: {
+                    "full-bleed": [30.00, 30.00, 35.00, 35.00, 40.00, 50.00, 55.00],
+                    "paginate-fee": 25.00,
+                    "type-set-fee": 55.00
+                }
+            }
+        }
     }
 };
