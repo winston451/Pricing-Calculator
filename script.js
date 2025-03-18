@@ -75,6 +75,18 @@ function generateProductOptions(productType) {
         case 'obituaries':
             generateObituaryOptions();
             break;
+        case 'lamination-services':
+            generateLaminationOptions();
+            break;
+        case 'tithing-envelopes':
+            generateTithingEnvelopeOptions();
+            break;
+        case 'mailing-envelopes':
+            generateMailingEnvelopeOptions();
+            break;
+        case 'door-hangers':
+            generateDoorHangerOptions();
+            break;
         default:
             optionsContainer.innerHTML = '<p>Please select a product category</p>';
     }
@@ -1221,6 +1233,18 @@ function updatePriceDisplay() {
         case 'obituaries':
             calculateObituaryPrice(priceItems);
             break;
+        case 'lamination-services':
+            calculateLaminationPrice(priceItems);
+            break;
+        case 'tithing-envelopes':
+            calculateTithingEnvelopePrice(priceItems);
+            break;
+        case 'mailing-envelopes':
+            calculateMailingEnvelopePrice(priceItems);
+            break;
+        case 'door-hangers':
+            calculateDoorHangerPrice(priceItems);
+            break;
     }
 
     // Calculate total price from price items
@@ -1705,4 +1729,392 @@ function calculateObituaryPrice(priceItems) {
             price: obituaryData.options['paginate-fee']
         });
     }
+}
+
+// Generate options for lamination services
+function generateLaminationOptions() {
+    // Size selection
+    const sizeGroup = document.createElement('div');
+    sizeGroup.className = 'option-group';
+
+    const sizeLabel = document.createElement('label');
+    sizeLabel.textContent = 'Size:';
+    sizeGroup.appendChild(sizeLabel);
+
+    const sizeSelect = document.createElement('select');
+    sizeSelect.id = 'lamination-size';
+
+    currentProduct.sizes.forEach((size, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+    });
+
+    sizeSelect.addEventListener('change', () => {
+        currentOptions.sizeIndex = parseInt(sizeSelect.value);
+        updatePriceDisplay();
+    });
+
+    sizeGroup.appendChild(sizeSelect);
+    optionsContainer.appendChild(sizeGroup);
+
+    // Quantity input
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.id = 'quantity';
+    quantityInput.min = 1;
+    quantityInput.value = 1;
+
+    quantityInput.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantityInput.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantityInput);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Note about discounts
+    if (currentProduct.note) {
+        const noteGroup = document.createElement('div');
+        noteGroup.className = 'option-group';
+
+        const noteText = document.createElement('p');
+        noteText.textContent = `Note: ${currentProduct.note}`;
+        noteText.style.fontStyle = 'italic';
+        noteText.style.fontSize = '0.9em';
+
+        noteGroup.appendChild(noteText);
+        optionsContainer.appendChild(noteGroup);
+    }
+
+    // Set initial values
+    currentOptions.sizeIndex = 0;
+    currentOptions.quantity = 1;
+}
+
+// Generate options for tithing envelopes
+function generateTithingEnvelopeOptions() {
+    // Quantity selection
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantitySelect = document.createElement('select');
+    quantitySelect.id = 'quantity';
+
+    currentProduct.quantities.forEach(qty => {
+        const option = document.createElement('option');
+        option.value = qty;
+        option.textContent = qty;
+        quantitySelect.appendChild(option);
+    });
+
+    quantitySelect.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantitySelect.value);
+
+        // Check if color option is available for selected quantity
+        const colorIndex = currentProduct.quantities.indexOf(currentOptions.quantity);
+        const colorAvailable = currentProduct.prices.color[colorIndex] !== null;
+
+        const colorInput = document.getElementById('color');
+        if (colorInput) {
+            colorInput.disabled = !colorAvailable;
+            if (!colorAvailable && colorInput.checked) {
+                document.getElementById('black-white').checked = true;
+                currentOptions.colorOption = 'black-white';
+            }
+        }
+
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantitySelect);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Color options
+    const colorGroup = document.createElement('div');
+    colorGroup.className = 'option-group';
+
+    const colorOptionLabel = document.createElement('label');
+    colorOptionLabel.textContent = 'Color Option:';
+    colorGroup.appendChild(colorOptionLabel);
+
+    const colorRadioGroup = document.createElement('div');
+    colorRadioGroup.className = 'radio-group';
+
+    // Black & white option
+    const bwOption = document.createElement('div');
+    bwOption.className = 'radio-option';
+
+    const bwInput = document.createElement('input');
+    bwInput.type = 'radio';
+    bwInput.name = 'color-option';
+    bwInput.id = 'black-white';
+    bwInput.value = 'black-white';
+    bwInput.checked = true;
+
+    const bwLabel = document.createElement('label');
+    bwLabel.htmlFor = 'black-white';
+    bwLabel.textContent = 'Black & White';
+
+    bwOption.appendChild(bwInput);
+    bwOption.appendChild(bwLabel);
+    colorRadioGroup.appendChild(bwOption);
+
+    // Color option
+    const colorOption = document.createElement('div');
+    colorOption.className = 'radio-option';
+
+    const colorInput = document.createElement('input');
+    colorInput.type = 'radio';
+    colorInput.name = 'color-option';
+    colorInput.id = 'color';
+    colorInput.value = 'color';
+
+    // Check if color is available for initial quantity
+    const initialQuantityIndex = 0;
+    const colorAvailable = currentProduct.prices.color[initialQuantityIndex] !== null;
+    colorInput.disabled = !colorAvailable;
+
+    const colorOptionItemLabel = document.createElement('label');
+    colorOptionItemLabel.htmlFor = 'color';
+    colorOptionItemLabel.textContent = 'Color';
+
+    colorOption.appendChild(colorInput);
+    colorOption.appendChild(colorOptionItemLabel);
+    colorRadioGroup.appendChild(colorOption);
+
+    // Add event listeners for color option selection
+    bwInput.addEventListener('change', () => {
+        if (bwInput.checked) {
+            currentOptions.colorOption = 'black-white';
+            updatePriceDisplay();
+        }
+    });
+
+    colorInput.addEventListener('change', () => {
+        if (colorInput.checked) {
+            currentOptions.colorOption = 'color';
+            updatePriceDisplay();
+        }
+    });
+
+    colorGroup.appendChild(colorRadioGroup);
+    optionsContainer.appendChild(colorGroup);
+
+    // Set initial values
+    currentOptions.quantity = currentProduct.quantities[0];
+    currentOptions.colorOption = 'black-white';
+}
+
+// Generate options for mailing envelopes
+function generateMailingEnvelopeOptions() {
+    // Quantity selection
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantitySelect = document.createElement('select');
+    quantitySelect.id = 'quantity';
+
+    currentProduct.quantities.forEach(qty => {
+        const option = document.createElement('option');
+        option.value = qty;
+        option.textContent = qty;
+        quantitySelect.appendChild(option);
+    });
+
+    quantitySelect.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantitySelect.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantitySelect);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Color options
+    const colorGroup = document.createElement('div');
+    colorGroup.className = 'option-group';
+
+    const colorOptionLabel = document.createElement('label');
+    colorOptionLabel.textContent = 'Color Option:';
+    colorGroup.appendChild(colorOptionLabel);
+
+    const colorRadioGroup = document.createElement('div');
+    colorRadioGroup.className = 'radio-group';
+
+    // Black & white option
+    const bwOption = document.createElement('div');
+    bwOption.className = 'radio-option';
+
+    const bwInput = document.createElement('input');
+    bwInput.type = 'radio';
+    bwInput.name = 'color-option';
+    bwInput.id = 'black-white';
+    bwInput.value = 'black-white';
+    bwInput.checked = true;
+
+    const bwLabel = document.createElement('label');
+    bwLabel.htmlFor = 'black-white';
+    bwLabel.textContent = 'Black & White';
+
+    bwOption.appendChild(bwInput);
+    bwOption.appendChild(bwLabel);
+    colorRadioGroup.appendChild(bwOption);
+
+    // Color option
+    const colorOption = document.createElement('div');
+    colorOption.className = 'radio-option';
+
+    const colorInput = document.createElement('input');
+    colorInput.type = 'radio';
+    colorInput.name = 'color-option';
+    colorInput.id = 'color';
+    colorInput.value = 'color';
+
+    const colorOptionItemLabel = document.createElement('label');
+    colorOptionItemLabel.htmlFor = 'color';
+    colorOptionItemLabel.textContent = 'Color';
+
+    colorOption.appendChild(colorInput);
+    colorOption.appendChild(colorOptionItemLabel);
+    colorRadioGroup.appendChild(colorOption);
+
+    // Add event listeners for color option selection
+    bwInput.addEventListener('change', () => {
+        if (bwInput.checked) {
+            currentOptions.colorOption = 'black-white';
+            updatePriceDisplay();
+        }
+    });
+
+    colorInput.addEventListener('change', () => {
+        if (colorInput.checked) {
+            currentOptions.colorOption = 'color';
+            updatePriceDisplay();
+        }
+    });
+
+    colorGroup.appendChild(colorRadioGroup);
+    optionsContainer.appendChild(colorGroup);
+
+    // Set initial values
+    currentOptions.quantity = currentProduct.quantities[0];
+    currentOptions.colorOption = 'black-white';
+}
+
+// Calculate price for lamination services
+function calculateLaminationPrice(priceItems) {
+    const sizeIndex = currentOptions.sizeIndex;
+    const pricePerUnit = currentProduct.prices[sizeIndex];
+    const quantity = currentOptions.quantity;
+    const totalPrice = pricePerUnit * quantity;
+
+    priceItems.push({
+        name: `${currentProduct.name} - ${currentProduct.sizes[sizeIndex]} (${quantity} qty)`,
+        price: totalPrice
+    });
+}
+
+// Calculate price for tithing envelopes
+function calculateTithingEnvelopePrice(priceItems) {
+    const quantityIndex = currentProduct.quantities.indexOf(currentOptions.quantity);
+    let basePrice;
+
+    if (currentOptions.colorOption === 'black-white') {
+        basePrice = currentProduct.prices['black-white'][quantityIndex];
+    } else {
+        // Check if color price is available for this quantity
+        const colorPrice = currentProduct.prices.color[quantityIndex];
+        basePrice = colorPrice !== null ? colorPrice : currentProduct.prices['black-white'][quantityIndex];
+    }
+
+    const colorOption = currentOptions.colorOption === 'black-white' ? 'Black & White' : 'Color';
+
+    priceItems.push({
+        name: `${currentProduct.name} (${currentOptions.quantity} qty, ${colorOption})`,
+        price: basePrice
+    });
+}
+
+// Calculate price for mailing envelopes
+function calculateMailingEnvelopePrice(priceItems) {
+    const quantityIndex = currentProduct.quantities.indexOf(currentOptions.quantity);
+    const basePrice = currentProduct.prices[currentOptions.colorOption][quantityIndex];
+
+    const colorOption = currentOptions.colorOption === 'black-white' ? 'Black & White' : 'Color';
+
+    priceItems.push({
+        name: `${currentProduct.name} (${currentOptions.quantity} qty, ${colorOption})`,
+        price: basePrice
+    });
+}
+
+// Generate options for door hangers
+function generateDoorHangerOptions() {
+    // Quantity selection
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantitySelect = document.createElement('select');
+    quantitySelect.id = 'quantity';
+
+    currentProduct.quantities.forEach(qty => {
+        const option = document.createElement('option');
+        option.value = qty;
+        option.textContent = qty;
+        quantitySelect.appendChild(option);
+    });
+
+    quantitySelect.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantitySelect.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantitySelect);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Stock information
+    const stockInfo = document.createElement('div');
+    stockInfo.className = 'option-group';
+    stockInfo.innerHTML = `<p><strong>Stock:</strong> ${currentProduct.stock}</p>`;
+    optionsContainer.appendChild(stockInfo);
+
+    // Design information
+    const designInfo = document.createElement('div');
+    designInfo.className = 'option-group';
+    designInfo.innerHTML = `<p><strong>Design:</strong> ${currentProduct.services.design}</p>`;
+    optionsContainer.appendChild(designInfo);
+
+    // Set initial values
+    currentOptions.quantity = currentProduct.quantities[0];
+}
+
+// Calculate price for door hangers
+function calculateDoorHangerPrice(priceItems) {
+    const quantityIndex = currentProduct.quantities.indexOf(currentOptions.quantity);
+    const basePrice = currentProduct.prices[quantityIndex];
+
+    priceItems.push({
+        name: `${currentProduct.name} (${currentOptions.quantity} qty)`,
+        price: basePrice
+    });
 }

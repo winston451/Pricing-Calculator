@@ -1,5 +1,36 @@
 // Pricing data extracted from the CSV/TSV files
 const pricingData = {
+    "lamination-services": {
+        name: "Lamination Services",
+        sizes: ["Wallet", "Letter (8.5x11)", "Legal (8.5x14)", "Tabloid (11x17)", "12x18"],
+        prices: [4.00, 5.00, 6.00, 10.00, 10.00],
+        note: "Discount available if multiple of same file."
+    },
+    "tithing-envelopes": {
+        name: "Tithing Envelopes (Size 6 3/4)",
+        quantities: [500, 1000, 2500, 5000],
+        prices: {
+            "black-white": [129.00, 159.00, 269.00, 485.00],
+            "color": [225.00, 290.00, null, null]
+        }
+    },
+    "mailing-envelopes": {
+        name: "Mailing Envelopes #10 (Size 4.25 x 9.5)",
+        quantities: [250, 500, 1000],
+        prices: {
+            "black-white": [89.95, 149.95, 189.95],
+            "color": [169.95, 249.95, 315.95]
+        }
+    },
+    "door-hangers": {
+        name: "Door Hanger 4.25 x 11 (Standard Size)",
+        stock: "14PT",
+        quantities: [500, 1000],
+        prices: [389.02, 432.67],
+        services: {
+            "design": "Included"
+        }
+    },
     "standard-flyers": {
         name: "Standard 1-Sided Flyers",
         stock: "100lb Cover",
