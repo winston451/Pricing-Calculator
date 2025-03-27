@@ -381,5 +381,10 @@ const pricingData = {
                 }
             }
         }
+    },
+    "magnetic-vehicle-signs": {
+        name: "Magnetic Vehicle Signs",
+        sizes: ["12\" x 24\"", "18\" x 24\""],
+        prices: [64.65, 84.50]
     }
 };

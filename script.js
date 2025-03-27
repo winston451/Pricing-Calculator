@@ -87,6 +87,9 @@ function generateProductOptions(productType) {
         case 'door-hangers':
             generateDoorHangerOptions();
             break;
+        case 'magnetic-vehicle-signs':
+            generateMagneticVehicleSignOptions();
+            break;
         default:
             optionsContainer.innerHTML = '<p>Please select a product category</p>';
     }
@@ -1245,6 +1248,9 @@ function updatePriceDisplay() {
         case 'door-hangers':
             calculateDoorHangerPrice(priceItems);
             break;
+        case 'magnetic-vehicle-signs':
+            calculateMagneticVehicleSignPrice(priceItems);
+            break;
     }
 
     // Calculate total price from price items
@@ -2116,5 +2122,73 @@ function calculateDoorHangerPrice(priceItems) {
     priceItems.push({
         name: `${currentProduct.name} (${currentOptions.quantity} qty)`,
         price: basePrice
+    });
+}
+
+// Generate options for magnetic vehicle signs
+function generateMagneticVehicleSignOptions() {
+    // Size selection
+    const sizeGroup = document.createElement('div');
+    sizeGroup.className = 'option-group';
+
+    const sizeLabel = document.createElement('label');
+    sizeLabel.textContent = 'Size:';
+    sizeGroup.appendChild(sizeLabel);
+
+    const sizeSelect = document.createElement('select');
+    sizeSelect.id = 'size';
+
+    currentProduct.sizes.forEach((size, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+    });
+
+    sizeSelect.addEventListener('change', () => {
+        currentOptions.sizeIndex = parseInt(sizeSelect.value);
+        updatePriceDisplay();
+    });
+
+    sizeGroup.appendChild(sizeSelect);
+    optionsContainer.appendChild(sizeGroup);
+
+    // Quantity input
+    const quantityGroup = document.createElement('div');
+    quantityGroup.className = 'option-group';
+
+    const quantityLabel = document.createElement('label');
+    quantityLabel.textContent = 'Quantity:';
+    quantityGroup.appendChild(quantityLabel);
+
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.id = 'quantity';
+    quantityInput.min = 1;
+    quantityInput.value = 1;
+
+    quantityInput.addEventListener('change', () => {
+        currentOptions.quantity = parseInt(quantityInput.value);
+        updatePriceDisplay();
+    });
+
+    quantityGroup.appendChild(quantityInput);
+    optionsContainer.appendChild(quantityGroup);
+
+    // Set initial values
+    currentOptions.sizeIndex = 0;
+    currentOptions.quantity = 1;
+}
+
+// Calculate price for magnetic vehicle signs
+function calculateMagneticVehicleSignPrice(priceItems) {
+    const sizeIndex = currentOptions.sizeIndex;
+    const basePrice = currentProduct.prices[sizeIndex];
+    const quantity = currentOptions.quantity;
+    const totalPrice = basePrice * quantity;
+
+    priceItems.push({
+        name: `${currentProduct.name} - ${currentProduct.sizes[sizeIndex]} (${quantity} qty)`,
+        price: totalPrice
     });
 }
