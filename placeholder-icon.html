@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate App Icons</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .icon-preview {
+            text-align: center;
+        }
+
+        .icon-preview p {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Generate App Icons</h1>
+        <p>Use this tool to generate simple app icons for the Pricing Calculator PWA.</p>
+
+        <div>
+            <canvas id="iconCanvas" width="512" height="512"></canvas>
+        </div>
+
+        <div>
+            <button id="generate">Generate Icons</button>
+            <button id="download192">Download 192x192</button>
+            <button id="download512">Download 512x512</button>
+        </div>
+
+        <div class="icon-container">
+            <div class="icon-preview">
+                <canvas id="preview192" width="192" height="192"></canvas>
+                <p>192x192 Preview</p>
+            </div>
+            <div class="icon-preview">
+                <canvas id="preview512" width="512" height="512"></canvas>
+                <p>512x512 Preview</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const iconCanvas = document.getElementById('iconCanvas');
+            const preview192 = document.getElementById('preview192');
+            const preview512 = document.getElementById('preview512');
+            const generateBtn = document.getElementById('generate');
+            const download192Btn = document.getElementById('download192');
+            const download512Btn = document.getElementById('download512');
+
+            const ctx = iconCanvas.getContext('2d');
+            const ctx192 = preview192.getContext('2d');
+            const ctx512 = preview512.getContext('2d');
+
+            // Generate icon function
+            function generateIcon() {
+                // Clear canvas
+                ctx.clearRect(0, 0, 512, 512);
+
+                // Background
+                ctx.fillStyle = '#3498db';
+                ctx.fillRect(0, 0, 512, 512);
+
+                // Draw dollar sign
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 300px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('$', 256, 256);
+
+                // Draw calculator outline
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 20;
+                ctx.beginPath();
+                ctx.roundRect(100, 100, 312, 312, 30);
+                ctx.stroke();
+
+                // Update previews
+                updatePreviews();
+            }
+
+            // Update preview canvases
+            function updatePreviews() {
+                // 192x192 preview
+                ctx192.clearRect(0, 0, 192, 192);
+                ctx192.drawImage(iconCanvas, 0, 0, 192, 192);
+
+                // 512x512 preview
+                ctx512.clearRect(0, 0, 512, 512);
+                ctx512.drawImage(iconCanvas, 0, 0, 512, 512);
+            }
+
+            // Download functions
+            function downloadIcon(size) {
+                const canvas = size === 192 ? preview192 : preview512;
+                const link = document.createElement('a');
+                link.download = `icon-${size}x${size}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+
+            // Event listeners
+            generateBtn.addEventListener('click', generateIcon);
+            download192Btn.addEventListener('click', () => downloadIcon(192));
+            download512Btn.addEventListener('click', () => downloadIcon(512));
+
+            // Generate initial icon
+            generateIcon();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+ICON GENERATION INSTRUCTIONS
+===========================
+
+To complete the mobile app setup, you need to generate two icon files:
+
+1. icon-192x192.png - 192×192 pixel icon for Android devices
+2. icon-512x512.png - 512×512 pixel icon for high-resolution displays
+
+You can generate these icons using the included tools:
+
+1. Open the placeholder-icon.html file in your browser
+   - This file contains a simple icon generator tool
+   - Click the "Generate Icons" button to create a new icon design
+   - Use the "Download 192x192" and "Download 512x512" buttons to save the icons
+
+2. Alternatively, open the icons-info.html file for more information about creating icons
+   - This file provides guidelines and links to online icon generators
+
+3. Place both icon files in the root directory of the project (same location as index.html)
+
+Once you've created the icons and placed them in the project directory, the mobile app will use them automatically when installed on a device.
+
+Note: The service worker and manifest.json files have been configured to use these icon files for the Progressive Web App (PWA) functionality.

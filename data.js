@@ -382,9 +382,67 @@ const pricingData = {
             }
         }
     },
+    "invoices": {
+        name: "Invoices",
+        types: {
+            "5.5x8.5": {
+                name: "5.5x8.5 Invoices",
+                stock: "Carbon",
+                quantities: [25, 50, 100, 200, 400, 500, 1000],
+                prices: {
+                    "2-part-no-numbers": [52.92, 74.52, 97.15, 140.35, 169.95, 205.15, 269.95],
+                    "3-part-no-numbers": [107.95, 118.75, 151.15, 183.55, 242.95, 264.55, 345.55],
+                    "2-part-with-numbers": [54.42, 77.52, 103.15, 152.35, 193.95, 235.15, 329.95],
+                    "3-part-with-numbers": [109.45, 121.75, 157.15, 195.55, 266.95, 294.55, 405.55]
+                },
+                numberingFee: 15 // $15 per 250 quantity
+            },
+            "8.5x11": {
+                name: "8.5x11 Invoices",
+                stock: "Carbon",
+                quantities: [100, 200, 400, 500, 1000],
+                prices: {
+                    "2-part-no-numbers": [160.92, 243.00, 279.72, 301.32, 534.60],
+                    "3-part-no-numbers": [201.15, 303.75, 349.65, 376.65, 668.25],
+                    "2-part-with-numbers": [172.92, 267.00, 327.72, 361.32, 654.60],
+                    "3-part-with-numbers": [213.15, 327.75, 397.65, 436.65, 788.25]
+                },
+                numberingFee: 30 // $30 per 250 quantity
+            }
+        },
+        services: {
+            design: 49.00
+        }
+    },
     "magnetic-vehicle-signs": {
         name: "Magnetic Vehicle Signs",
         sizes: ["12\" x 24\"", "18\" x 24\""],
         prices: [64.65, 84.50]
+    },
+    "full-page-flyer": {
+        name: "8.5 x 11 Full Page Flyer/Brochure",
+        stocks: ["Bond", "100lb Gloss Text"],
+        prices: {
+            "Bond": {
+                "full-color": {
+                    "1sided": 0.69,
+                    "2sided": 1.38
+                },
+                "black-white": {
+                    "1sided": 0.25,
+                    "2sided": 0.50
+                }
+            },
+            "100lb Gloss Text": {
+                "full-color": {
+                    "1sided": 0.78,
+                    "2sided": 1.56
+                }
+            }
+        },
+        discounts: {
+            "quantity-over-250": 0.15
+        },
+        note: "For quantities over 250, price decreases by $0.15 per unit."
     }
 };
