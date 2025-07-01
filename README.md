@@ -1,4 +1,9 @@
 # DigiMax Pricing Calculator
+![HTML](https://img.shields.io/badge/HTML-5-orange?logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-3-blue?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript&logoColor=black)
+![PWA](https://img.shields.io/badge/Progressive%20Web%20App-PWA-green?logo=pwa&logoColor=white)
+
 
 The **DigiMax Pricing Calculator** is an internal web application designed to help our team accurately and efficiently generate print product quotes. This tool replaces manual spreadsheet lookups, enabling faster response times to client pricing inquiries.
 
